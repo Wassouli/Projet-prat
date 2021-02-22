@@ -11,7 +11,9 @@ from transforms import sep_transforms
 from utils.flow_utils import flow_to_image, resize_flow
 from utils.torch_utils import restore_model
 from models.pwclite import PWCLite
-
+import flowpy
+import matplotlib.pyplot as plt
+import cv2
 
 class TestHelper():
     def __init__(self, cfg):
@@ -73,8 +75,8 @@ if __name__ == '__main__':
     flow_12 = resize_flow(flow_12, (h, w))
     np_flow_12 = flow_12[0].detach().cpu().numpy().transpose([1, 2, 0])
 
-    vis_flow = flow_to_image(np_flow_12)
-    import cv2
-    cv2.imwrite("/content/drive/MyDrive/res/"+t0[0]+ " " +t1[0]+".png", vis_flow)
+    vis_flow = flowpy.flow_to_rgb(np_flow_12)
+
+    cv2.imwrite(t0[0]+ " " +t1[0]+".png", vis_flow)
 
     
